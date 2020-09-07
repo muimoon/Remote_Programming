@@ -22,7 +22,7 @@ void setup ()
   Serial.begin (9600);
   Blynk.begin (auth , "NOVA_1440", "asdfghjkl");
   dht.begin();
-  delay(5000);
+  ESP.deepSleep(10000000);
   sendSensor();
 }
 void loop ()
