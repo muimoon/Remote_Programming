@@ -2,10 +2,8 @@
 #include <BlynkSimpleEsp8266.h>
 #include "DHT.h"
 // You should get Auth Token in the Blynk App.
-
 DHT dht(2, DHT11);
-
-char auth [] = "67a17b1eafea4f828f444b4298867d05";
+char auth[] = "67a17b1eafea4f828f444b4298867d05";
 
 void sendSensor()
 {
@@ -17,17 +15,29 @@ void sendSensor()
   Blynk.virtualWrite(V6, t);  //V6 is for Temperature
 
 }
-void setup ()
+
+void setup( )
 {
-  Serial.begin (9600);
-  Blynk.begin (auth , "NOVA_1440", "asdfghjkl");
+  WiFi.mode(WIFI_OFF);
+  WiFi.forceSleepBegin();
+  delay(1);
+  Serial.begin(9600);
   dht.begin();
-  ESP.deepSleep(10000000);
-  sendSensor();
+  WiFi.forceSleepWake();
+  delay(1);
+  // Disable the WiFi persistence.
+  //The ESP8266 will not load and save WiFi settings in the flash memory.
+  WiFi.persistent(false);
+  Blynk.begin(auth, "NOVA_1440", "asdfghjkl");
 }
-void loop ()
+
+void loop()
 {
-  Blynk.run ();
+  Blynk.run();
   sendSensor();
-  delay(5000);
+  delay( 10 );
+  WiFi.disconnect( true );
+  delay( 1 );
+  // WAKE_RF_DISABLED to keep the WiFi radio disabled when we wake up
+  ESP.deepSleep(7200000000); //shut down two hours
 }
