@@ -18,13 +18,13 @@ void sendSensor()
 
 void setup( )
 {
-  WiFi.mode(WIFI_OFF);
-  WiFi.forceSleepBegin();
-  delay(1);
+  //  WiFi.mode(WIFI_OFF);
+  //  WiFi.forceSleepBegin();
+  //  delay(1);
   Serial.begin(9600);
   dht.begin();
-  WiFi.forceSleepWake();
-  delay(1);
+  //  WiFi.forceSleepWake();
+  //  delay(1);
   // Disable the WiFi persistence.
   //The ESP8266 will not load and save WiFi settings in the flash memory.
   WiFi.persistent(false);
@@ -35,9 +35,8 @@ void loop()
 {
   Blynk.run();
   sendSensor();
-  delay( 10 );
-  WiFi.disconnect( true );
-  delay( 1 );
+  delay( 100 );
+  //WiFi.disconnect( true );
   // WAKE_RF_DISABLED to keep the WiFi radio disabled when we wake up
-  ESP.deepSleep(7200000000); //shut down two hours
+  ESP.deepSleep(600000000); //1,000,000 1s
 }
